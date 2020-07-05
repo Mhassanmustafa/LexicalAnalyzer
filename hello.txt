@@ -1,5 +1,10 @@
 #include <stdio.h> 
 int main () {
-cout << "hekk"
+// Comment
+/*Multiline */
+int @name := "hassan Mustafa";
 
+@number := 199.99
+cout <<< "hekk";
+cin >>> "enter word";
 } 

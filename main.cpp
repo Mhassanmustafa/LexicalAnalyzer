@@ -3,11 +3,147 @@
 #include <fstream>
 #include <iostream>
 #include <conio.h>
+#include <string>
 
 using namespace std;
-enum Tokens {
-RESW= 0 , Iden ,COM, OP ,INP , OUT , NL,PUN
+enum Tokens
+{
+	RESW = 0, Iden, COM, OP, INP, OUT, NL, PUN
 };
+
+void generateOutputTextFile(char *lex, int index)
+{
+	ifstream file;
+	file.open("Tokens.txt");
+	ofstream newFile;
+	if (file.is_open())
+	{
+
+		newFile.open("Tokens.txt", ios::out | ios::app);
+		switch (index)
+		{
+			case 0:
+				newFile << lex;
+				newFile << ",  Reserved Word";
+				newFile << "\n";
+				break;
+			case 1:
+				newFile << lex;
+				newFile << ",  Identifier";
+				newFile << "\n";
+				break;
+			case 2:
+				newFile << lex;
+				newFile << ",  Comment";
+				newFile << "\n";
+				break;
+			case 3:
+				newFile << lex;
+				newFile << ",  Operator";
+				newFile << "\n";
+				break;
+			case 4:
+				newFile << lex;
+				newFile << ",  Input";
+				newFile << "\n";
+				break;
+			case 5:
+				newFile << lex;
+				newFile << ",  Output";
+				newFile << "\n";
+				break;
+			case 6:
+				newFile << lex;
+				newFile << ",  Nummeric Literals";
+				newFile << "\n";
+				break;
+			case 7:
+				newFile << lex;
+				newFile << ",  Punctuation";
+				newFile << "\n";
+				break;
+		}
+	}
+	else
+	{
+		newFile.open("Tokens.txt");
+		generateOutputTextFile(lex, index);
+	}
+}
+
+void generateTOken(char *lex, int index)
+{
+	switch (index)
+	{
+		case 0:
+			cout << lex;
+			cout << ",  Reserved Word";
+			cout << "\n";
+			break;
+		case 1:
+			cout << lex;
+			cout << ",  Identifier";
+			cout << "\n";
+			break;
+		case 2:
+			cout << lex;
+			cout << ",  Comment";
+			cout << "\n";
+			break;
+		case 3:
+			cout << lex;
+			cout << ",  Operator";
+			cout << "\n";
+			break;
+		case 4:
+			cout << lex;
+			cout << ",  Input";
+			cout << "\n";
+			break;
+		case 5:
+			cout << lex;
+			cout << ",  Output";
+			cout << "\n";
+			break;
+		case 6:
+			cout << lex;
+			cout << ",  Nummeric Literals";
+			cout << "\n";
+			break;
+		case 7:
+			cout << lex;
+			cout << ",  Punctuation";
+			cout << "\n";
+			break;
+	}
+
+	generateOutputTextFile(lex, index);
+}
+
+void generateTokenErors(char character) {
+    ifstream file;
+	file.open("Errors.txt");
+	ofstream newFile;
+	if (file.is_open())
+	{
+
+		newFile.open("Errors.txt", ios::out | ios::app);
+		if(character == ' '){
+           newFile << "Space does goes to any state according to your machine/DFA from current state Token not generated";
+           newFile << "\n";
+		}else{
+            newFile << character;
+            newFile << " does goes to any state according to your machine/DFA from current state Token not generated";
+            newFile << "\n";
+		}
+	}
+	else
+	{
+		newFile.open("Errors.txt");
+		generateTokenErors(character);
+	}
+}
+
 int main()
 {
     char b1[4096];
@@ -71,22 +207,30 @@ int main()
 ,{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,0,PUN}
 };
 
-ifstream obj;
+// to remove old files first
+    remove("Tokens.txt");
+    remove("Errors.txt");
+    //getch();
+    ifstream obj;
     obj.open("hello.txt");
 
     char *curr_buff = b1;
-    obj.get(curr_buff, 4096, EOF);
+    obj.get(curr_buff, 4096, '\0');
 
     int count = 0;
     int state = 0;
     int lexc = 0;
     char lex[100];
 
-    while (curr_buff[count] != EOF) {
-
+    while (curr_buff[count] != '\0') {
+        //cout<<curr_buff[count];
+        //getch();
         if (!TT[state][128] ) {
             state = TT[state][int(curr_buff[count])];
+            //cout<<state;
+            //getch();
             if (state == -1) {
+                generateTokenErors(curr_buff[count]);
                 lexc = 0;
                 state = 0;
                 count++;
@@ -94,14 +238,15 @@ ifstream obj;
                 lex[lexc++] = curr_buff[count++];
             }
         } else {
+
             if (TT[state][129] != 0) {
                 lexc--;
                 count--;
             }
+
             lex[lexc] = '\0';
-            cout << lex;
-            cout << "\n";
-            getch();
+            generateTOken(lex , TT[state][130]);
+
             lexc = 0;
             state = 0;
 
@@ -111,7 +256,7 @@ ifstream obj;
                 curr_buff = b2;
             } else
                 curr_buff = b1;
-            obj.get(curr_buff, 4096, EOF);
+            obj.get(curr_buff, 4096, '\0');
             count = 0;
         }
     }

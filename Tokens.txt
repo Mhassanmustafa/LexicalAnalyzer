@@ -1,0 +1,35 @@
+include,  Reserved Word
+<,  Operator
+stdio,  Reserved Word
+h,  Reserved Word
+>,  Operator
+int,  Reserved Word
+main,  Reserved Word
+(,  Punctuation
+),  Punctuation
+{,  Punctuation
+// Comment
+,  Comment
+/*Multiline */,  Comment
+int,  Reserved Word
+@name,  Identifier
+:=,  Operator
+",  Punctuation
+hassan,  Reserved Word
+Mustafa,  Reserved Word
+",  Punctuation
+@number,  Identifier
+:=,  Operator
+199.99,  Nummeric Literals
+cout,  Reserved Word
+<<<,  Output
+",  Punctuation
+hekk,  Reserved Word
+",  Punctuation
+cin,  Reserved Word
+>>>,  Input
+",  Punctuation
+enter,  Reserved Word
+word,  Reserved Word
+",  Punctuation
+},  Punctuation

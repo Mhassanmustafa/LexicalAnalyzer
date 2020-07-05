@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1593941588 source:g:\c++\compiler construction\lexicalanalyzer\main.cpp
+1593955472 source:g:\c++\compiler construction\lexicalanalyzer\main.cpp
 	<iostream>
 	<stdlib.h>
 	<fstream>
 	<iostream>
 	<conio.h>
+	<string>
 
